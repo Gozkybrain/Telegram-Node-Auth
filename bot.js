@@ -11,7 +11,6 @@ const botUrl = process.env.BOT_URL;
 
 let bot;
 
-// Start the bot
 const startBot = () => {
     try {
         bot = new TelegramBot(token, { polling: true });
@@ -99,7 +98,6 @@ server.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
 });
 
-// Export startBot to be used in server.js
 module.exports = {
     startBot,
 };
