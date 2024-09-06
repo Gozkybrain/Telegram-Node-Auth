@@ -2,7 +2,7 @@ const { db, admin } = require('../config/firebase');
 
 const storeUserData = async (username, userId) => {
     try {
-        const userRef = db.collection('users').doc( userId.toString());
+        const userRef = db.collection('telegram').doc( userId.toString());
         await userRef.set({
             username,
             userId,
@@ -15,7 +15,7 @@ const storeUserData = async (username, userId) => {
 };
 const getUserData = async (userId) => {
     try {
-        const userRef = db.collection('users').doc(userId.toString());
+        const userRef = db.collection('telegram').doc(userId.toString());
         const doc = await userRef.get();
         if (doc.exists) {
             return doc.data(); // Return the user data
