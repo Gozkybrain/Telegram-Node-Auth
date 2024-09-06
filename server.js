@@ -5,7 +5,7 @@ const bot = require('./bot'); // Import your bot logic
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 2020;
 
 app.get('/', (req, res) => {
     res.send('Server is running!');
