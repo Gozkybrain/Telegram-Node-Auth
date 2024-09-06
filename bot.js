@@ -1,12 +1,11 @@
-const http = require('http'); // Import the HTTP module, bcos of render deployment.
+const http = require('http');
 const TelegramBot = require('node-telegram-bot-api');
 const { storeUserData } = require('./controllers/userController');
 const dotenv = require('dotenv');
 
-
 dotenv.config();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 9000;
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const botUrl = process.env.BOT_URL;
 
@@ -41,7 +40,7 @@ const startBot = () => {
             };
 
             try {
-                await bot.sendMessage(userId, `Welcome to JayGee, ${username} - ${userId}. Click the button below to proceed`, options);
+                await bot.sendMessage(userId, `Welcome to JayGee, ${username} Click the button below to proceed`, options);
                 console.log(`Sent message with link button to user ${username}`);
             } catch (error) {
                 console.error('Error sending message:', error);
@@ -59,8 +58,7 @@ const startBot = () => {
                 console.error('Error storing user data:', error);
             }
 
-            const serverUrl = `${botUrl}/${username}/${userId}`;
-
+            const serverUrl = `${botUrl}/user/${username}/${userId}`;
 
             const options = {
                 reply_markup: {
@@ -102,14 +100,7 @@ server.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
 });
 
-// Catch unhandled exceptions and restart the bot
-process.on('uncaughtException', (error) => {
-    console.error('Uncaught Exception:', error);
-    console.log('Restarting bot...');
-    startBot();
-});
-
-startBot();
-
-module.exports = bot;
-
+// Export startBot to be used in server.js
+module.exports = {
+    startBot,
+};
