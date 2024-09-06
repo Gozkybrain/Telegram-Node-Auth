@@ -27,7 +27,7 @@ const startBot = () => {
                 console.error('Error storing user data:', error);
             }
 
-            const webAppUrl = `${botUrl}/${username}/${userId}`;
+            const webAppUrl = `${botUrl}/user/${username}/${userId}`;
 
             const options = {
                 reply_markup: {
