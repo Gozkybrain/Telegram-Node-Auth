@@ -11,13 +11,13 @@ const botUrl = process.env.BOT_URL;
 
 let bot;
 
+// Start the bot
 const startBot = () => {
     try {
         bot = new TelegramBot(token, { polling: true });
 
         bot.onText(/\/start/, async (msg) => {
-            const username = msg.from.username;
-            const userId = msg.from.id;
+            const { username, id: userId } = msg.from;
 
             try {
                 await storeUserData(username, userId);
@@ -40,7 +40,7 @@ const startBot = () => {
             };
 
             try {
-                await bot.sendMessage(userId, `Welcome to JayGee, ${username} Click the button below to proceed`, options);
+                await bot.sendMessage(userId, `Welcome to JayGee, ${username}. Click the button below to proceed`, options);
                 console.log(`Sent message with link button to user ${username}`);
             } catch (error) {
                 console.error('Error sending message:', error);
@@ -48,8 +48,7 @@ const startBot = () => {
         });
 
         bot.onText(/\/connect/, async (msg) => {
-            const username = msg.from.username;
-            const userId = msg.from.id;
+            const { username, id: userId } = msg.from;
 
             try {
                 await storeUserData(username, userId);
