@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const PORT = process.env.PORT || 2021;
+const PORT = process.env.PORT_BOT || 2021;
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const botUrl = process.env.BOT_URL;
 
