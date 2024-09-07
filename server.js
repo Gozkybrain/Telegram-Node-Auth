@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const { getUserData } = require('./controllers/userController'); // Import getUserData from userController
+const path = require('path'); // Add path module
+const { getUserData } = require('./controllers/userController');
 const bot = require('./bot');
 
 dotenv.config();
@@ -11,10 +12,12 @@ const PORT = process.env.PORT || 2020;
 
 // Middleware
 app.use(cors({
-    origin: 'https://pharmacheck.netlify.app' // Allow only your Netlify app
+    origin: 'https://pharmacheck.netlify.app'
 }));
+app.use(express.json());
 
-app.use(express.json()); // For parsing application/json
+// Serve static files (for CSS, images, etc.)
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Route to get user data
 app.get('/api/users/:userId', async (req, res) => {
@@ -33,10 +36,12 @@ app.get('/api/users/:userId', async (req, res) => {
     }
 });
 
+// Serve the HTML file for the root route
 app.get('/', (req, res) => {
-    res.send('Server is running!');
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

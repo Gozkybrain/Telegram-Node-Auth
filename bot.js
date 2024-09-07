@@ -31,7 +31,7 @@ const startBot = () => {
                 reply_markup: {
                     inline_keyboard: [[
                         {
-                            text: 'Open Web App',
+                            text: 'Open PharmaCheck Dashboard',
                             web_app: { url: webAppUrl }
                         }
                     ]]
@@ -39,7 +39,7 @@ const startBot = () => {
             };
 
             try {
-                await bot.sendMessage(userId, `Welcome to JayGee, ${username}. Click the button below to proceed`, options);
+                await bot.sendMessage(userId, `Hello ${username}, you were successfully authenticated and are ready to go. Click the button below to proceed`, options);
                 console.log(`Sent message with link button to user ${username}`);
             } catch (error) {
                 console.error('Error sending message:', error);
@@ -67,7 +67,7 @@ const startBot = () => {
             };
 
             try {
-                await bot.sendMessage(userId, `Welcome to JayGee, ${username}. Click the button below to proceed`, options);
+                await bot.sendMessage(userId, `Hello ${username}, you were successfully authenticated and are ready to go. Click the button below to proceed`, options);
                 console.log(`Sent message with link button to user ${username}`);
             } catch (error) {
                 console.error('Error sending message:', error);
@@ -95,7 +95,7 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT}`);
+    console.log(`Bot is listening on port ${PORT}`);
 });
 
 module.exports = {
