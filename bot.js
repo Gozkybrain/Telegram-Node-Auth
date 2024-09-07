@@ -18,6 +18,11 @@ const startBot = () => {
             bot = new TelegramBot(token, { polling: true });
         }
 
+        // Remove all listeners to prevent duplications if the bot restarts
+        bot.removeTextListener(/\/start/);
+        bot.removeTextListener(/\/connect/);
+
+        // Listener for /start command
         bot.onText(/\/start/, async (msg) => {
             const { username, id: userId } = msg.from;
             
@@ -47,6 +52,7 @@ const startBot = () => {
             }
         });
 
+        // Listener for /connect command
         bot.onText(/\/connect/, async (msg) => {
             const { username, id: userId } = msg.from;
             

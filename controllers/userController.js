@@ -1,25 +1,15 @@
 const { db, admin } = require('../config/firebase');
 
-// Function to store user data with an initial balance
+// Function to store user data without an initial balance
 const storeUserData = async (username, userId) => {
     try {
-        const initialBalance = [
-            {
-                amount: 20,
-                type: 'credit',
-                referenceId: 'initial_deposit', // Unique identifier for this initial deposit
-                date: admin.firestore.Timestamp.fromDate(new Date()) // Current date
-            }
-        ];
-
         const userRef = db.collection('telegram').doc(userId.toString());
         await userRef.set({
             username,
             userId,
-            balance: initialBalance, // Initialize balance with the default entry
-            createdAt: admin.firestore.FieldValue.serverTimestamp(),
+            createdAt: admin.firestore.FieldValue.serverTimestamp(), // Store creation timestamp
         });
-        console.log(`User data for userId ${userId} stored successfully with initial balance.`);
+        console.log(`User data for userId ${userId} stored successfully.`);
     } catch (error) {
         console.error('Error storing user data:', error);
     }
