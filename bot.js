@@ -8,6 +8,7 @@ dotenv.config();
 const PORT = process.env.PORT_BOT || 2021;
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const botUrl = process.env.BOT_URL;
+const serverUrl = process.env.SERVER;
 
 let bot;
 
@@ -36,17 +37,20 @@ const startBot = () => {
             }
 
             const webAppUrl = `${botUrl}/user/${username}/${userId}`;
+            const serverCheckUrl = `${serverUrl}`; // Add a server check URL
+
             const options = {
                 reply_markup: {
-                    inline_keyboard: [[
-                        { text: 'Open PharmaCheck Dashboard', web_app: { url: webAppUrl } }
-                    ]]
+                    inline_keyboard: [
+                        [{ text: 'Open Dashboard', web_app: { url: webAppUrl } }],
+                        [{ text: 'Server Status', url: serverCheckUrl }] // Second button
+                    ]
                 }
             };
 
             try {
-                await bot.sendMessage(userId, `Hello ${username}, you were successfully authenticated and are ready to go. Click the button below to proceed`, options);
-                console.log(`Sent message with link button to user ${username}`);
+                await bot.sendMessage(userId, `Hello ${username}, you were successfully authenticated and are ready to go. Proceed to your dashboard to continue; if you experience delay, please check the server status for update.`, options);
+                console.log(`Sent message with two options to user ${username}`);
             } catch (error) {
                 console.error('Error sending message:', error);
             }
@@ -65,18 +69,21 @@ const startBot = () => {
                 console.error('Error storing user data:', error);
             }
 
-            const serverUrl = `${botUrl}/user/${username}/${userId}`;
+            const webAppUrl = `${botUrl}/user/${username}/${userId}`;
+            const serverCheckUrl = `${serverUrl}`; // Add a server check URL
+
             const options = {
                 reply_markup: {
-                    inline_keyboard: [[
-                        { text: 'Click here to proceed', url: serverUrl }
-                    ]]
+                    inline_keyboard: [
+                        [{ text: 'Open Dashboard', web_app: { url: webAppUrl } }],
+                        [{ text: 'Server Status', url: serverCheckUrl }] // Second button
+                    ]
                 }
             };
 
             try {
-                await bot.sendMessage(userId, `Hello ${username}, you were successfully authenticated and are ready to go. Click the button below to proceed`, options);
-                console.log(`Sent message with link button to user ${username}`);
+                await bot.sendMessage(userId, `Hello ${username}, you were successfully authenticated and are ready to go. Click the buttons below to proceed`, options);
+                console.log(`Sent message with two options to user ${username}`);
             } catch (error) {
                 console.error('Error sending message:', error);
             }
