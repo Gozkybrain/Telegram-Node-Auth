@@ -13,10 +13,15 @@ let bot;
 
 const startBot = () => {
     try {
-        bot = new TelegramBot(token, { polling: true });
+        // Initialize the bot if it's not already initialized
+        if (!bot) {
+            bot = new TelegramBot(token, { polling: true });
+        }
 
         bot.onText(/\/start/, async (msg) => {
             const { username, id: userId } = msg.from;
+            
+            console.log(`Received /start command from ${username} (${userId})`);
 
             try {
                 await storeUserData(username, userId);
@@ -26,14 +31,10 @@ const startBot = () => {
             }
 
             const webAppUrl = `${botUrl}/user/${username}/${userId}`;
-
             const options = {
                 reply_markup: {
                     inline_keyboard: [[
-                        {
-                            text: 'Open PharmaCheck Dashboard',
-                            web_app: { url: webAppUrl }
-                        }
+                        { text: 'Open PharmaCheck Dashboard', web_app: { url: webAppUrl } }
                     ]]
                 }
             };
@@ -48,6 +49,8 @@ const startBot = () => {
 
         bot.onText(/\/connect/, async (msg) => {
             const { username, id: userId } = msg.from;
+            
+            console.log(`Received /connect command from ${username} (${userId})`);
 
             try {
                 await storeUserData(username, userId);
@@ -57,7 +60,6 @@ const startBot = () => {
             }
 
             const serverUrl = `${botUrl}/user/${username}/${userId}`;
-
             const options = {
                 reply_markup: {
                     inline_keyboard: [[
@@ -97,6 +99,9 @@ const server = http.createServer((req, res) => {
 server.listen(PORT, () => {
     console.log(`Bot is listening on port ${PORT}`);
 });
+
+// Start the bot
+startBot();
 
 module.exports = {
     startBot,
